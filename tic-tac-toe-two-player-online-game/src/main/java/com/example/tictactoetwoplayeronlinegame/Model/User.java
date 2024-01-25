@@ -1,6 +1,6 @@
 package com.example.tictactoetwoplayeronlinegame.Model;
 
-import com.example.tictactoetwoplayeronlinegame.dto.AccessToken;
+import com.example.tictactoetwoplayeronlinegame.dao.AccessToken;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package com.example.tictactoetwoplayeronlinegame.controller;
 
-import com.example.tictactoetwoplayeronlinegame.dto.AccessToken;
+import com.example.tictactoetwoplayeronlinegame.dao.AccessToken;
 import com.example.tictactoetwoplayeronlinegame.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,6 +1,5 @@
-package com.example.tictactoetwoplayeronlinegame.dto;
+package com.example.tictactoetwoplayeronlinegame.dao;
 
-import jdk.jfr.DataAmount;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccessToken {
-    String AccessToken;
+    String accessToken;
 }
