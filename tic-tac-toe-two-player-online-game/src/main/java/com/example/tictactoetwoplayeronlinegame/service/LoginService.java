@@ -2,6 +2,7 @@ package com.example.tictactoetwoplayeronlinegame.service;
 
 import com.example.tictactoetwoplayeronlinegame.Model.User;
 import com.example.tictactoetwoplayeronlinegame.dao.AccessToken;
+import com.example.tictactoetwoplayeronlinegame.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,8 +10,8 @@ import org.springframework.stereotype.Service;
 public class LoginService {
 
     @Autowired
-    LoginRepository loginRepository;
-    AccessToken login(String username, String password){
+    UserRepo userRepo;
+    public AccessToken login(String username, String password){
         AccessToken accessToken = generateAccessToken(username, password);
 
         User user = User.builder()
@@ -19,7 +20,7 @@ public class LoginService {
                 .accessToken(accessToken)
                 .build();
 
-        loginRepoImpl.save(user);
+        userRepo.save(user);
 
         return accessToken;
     }
