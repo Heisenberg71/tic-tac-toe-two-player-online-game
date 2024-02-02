@@ -1,35 +1,31 @@
 package com.example.tictactoetwoplayeronlinegame.service;
 
-import com.example.tictactoetwoplayeronlinegame.Model.User;
-import com.example.tictactoetwoplayeronlinegame.dto.AccessToken;
+import com.example.tictactoetwoplayeronlinegame.Model.Users;
+import com.example.tictactoetwoplayeronlinegame.config.UnauthorizedException;
 import com.example.tictactoetwoplayeronlinegame.repository.LoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {
+    UnauthorizedException unauthorizedException;
 
     @Autowired
     LoginRepository loginRepository;
-    AccessToken login(String username, String password){
-        AccessToken accessToken = generateAccessToken(username, password);
+    public String login(String username, String password){
+        String accessToken = username + password;
 
-        User user = User.builder()
+        Users users = Users.builder()
                 .username(username)
                 .password(password)
                 .accessToken(accessToken)
                 .build();
 
-        loginRepository.save(user);
+        if(loginRepository.userCredintialCheck(username, password).size() == 0){
+            throw new UnauthorizedException("You are not authorized");
+        }
 
-        return accessToken;
-    }
-
-    private AccessToken generateAccessToken(String username, String password){
-        String accessTokenStr = username + password;
-        AccessToken accessToken = AccessToken.builder()
-                .AccessToken(accessTokenStr)
-                .build();
+        loginRepository.save(accessToken, username, password);
 
         return accessToken;
     }
