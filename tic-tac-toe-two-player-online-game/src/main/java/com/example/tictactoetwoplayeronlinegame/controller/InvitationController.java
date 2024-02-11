@@ -1,8 +1,11 @@
 package com.example.tictactoetwoplayeronlinegame.controller;
 
+import com.example.tictactoetwoplayeronlinegame.dto.InvitationRequest;
+import com.example.tictactoetwoplayeronlinegame.service.InvitationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +19,7 @@ public class InvitationController {
     InvitationService invitationService;
 
     @GetMapping("/invitations")
-    String getInvitations(@RequestParam String username) throws JsonProcessingException {
+    String getInvitations(@RequestParam @NotNull String username) throws JsonProcessingException {
         List<String> invitations =  invitationService.getInvitation(username);
 
         Gson gson = new Gson();
@@ -30,8 +33,8 @@ public class InvitationController {
     }
 
     @PostMapping("/invitation")
-    String sendInvitation(@RequestBody String username) throws JsonProcessingException {
-        String sendInvitationResponse = invitationService.sendInvitation(username);
+    String sendInvitation(@RequestBody @NotNull InvitationRequest invitationRequest) throws JsonProcessingException {
+        String sendInvitationResponse = invitationService.sendInvitation(invitationRequest);
 
         Map<String, String> object = new HashMap<>();
         object.put("sending_status", sendInvitationResponse);
@@ -41,8 +44,8 @@ public class InvitationController {
     }
 
     @PostMapping("/accept")
-    String acceptInvitation(@RequestBody String username) throws JsonProcessingException {
-        String acceptInvitationService = invitationService.acceptInvitation(username);
+    String acceptInvitation(@RequestBody @NotNull InvitationRequest invitationRequest) throws JsonProcessingException {
+        String acceptInvitationService = invitationService.acceptInvitation(invitationRequest);
 
         Map<String, String> object = new HashMap<>();
         object.put("accept", acceptInvitationService);
@@ -52,8 +55,8 @@ public class InvitationController {
     }
 
     @PostMapping("/reject")
-    String rejectInvitation(@RequestBody String username) throws JsonProcessingException {
-        String rejectInvitationService = invitationService.rejectInvitation(username);
+    String rejectInvitation(@RequestBody @NotNull InvitationRequest invitationRequest) throws JsonProcessingException {
+        String rejectInvitationService = invitationService.rejectInvitation(invitationRequest);
 
         Map<String, String> object = new HashMap<>();
         object.put("reject", rejectInvitationService);
