@@ -62,6 +62,11 @@ public class InvitationService {
         List<String> sendersList = getInvitation(receiver);
         sendersList.remove(sender);
         String[] sendersArray = sendersList.toArray(new String[0]);
+
+        if(sendersArray[0].contains(sender + ".")) sendersArray[0] = sendersArray[0].replace(sender + ",", "");
+        else if(sendersArray[0].contains("," + sender)) sendersArray[0] = sendersArray[0].replace("," + sender, "");
+        else sendersArray[0] = sendersArray[0].replace(sender, "");
+
         invitationRepository.sendInvitation(receiver, sendersArray);
     }
 }
