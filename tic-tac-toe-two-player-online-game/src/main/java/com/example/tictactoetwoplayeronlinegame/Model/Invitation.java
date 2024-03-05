@@ -16,16 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Invitation {
     @Id
-    @SequenceGenerator(
-            name = "invitation_sequence",
-            sequenceName = "invitation_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "invitation_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String receiver;
-    private List<String> senders;
+    private String sender;
 }

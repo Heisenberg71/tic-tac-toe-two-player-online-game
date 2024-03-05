@@ -19,14 +19,14 @@ public class InvitationController {
     InvitationService invitationService;
 
     @GetMapping("/invitations")
-    String getInvitations(@RequestParam @NotNull String username) throws JsonProcessingException {
-        List<String> invitations =  invitationService.getInvitation(username);
+    String getInvitations(@RequestParam @NotNull String receiver) throws JsonProcessingException {
+        List<String> invitations =  invitationService.getInvitation(receiver);
 
         Gson gson = new Gson();
         String invitationsJsonArray = gson.toJson(invitations);
 
-        Map<String, String> object = new HashMap<>();
-        object.put("invitations", invitationsJsonArray);
+        Map<String, List<String>> object = new HashMap<>();
+        object.put("invitations", invitations);
 
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(object);

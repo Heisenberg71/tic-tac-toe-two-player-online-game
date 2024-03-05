@@ -17,33 +17,18 @@ public class InvitationService {
     final static Logger logger = LoggerFactory.getLogger(InvitationService.class);
     @Autowired
     InvitationRepository invitationRepository;
-    public List<String> getInvitation(String username){
+
+    public List<String> getInvitation(String receiver){
         logger.info("getInvitation invoked");
-        List<String> senders = invitationRepository.getInvitation(username);
+        List<String> senders = invitationRepository.getInvitation(receiver);
         if(senders.contains(null)) return new ArrayList();
         return senders;
     }
 
     public String sendInvitation(InvitationRequest invitationRequest){
-        if(invitationAlreadySent(invitationRequest)){
-            logger.info("Already invitation sent to this user");
-            return "You have already sent invitation to this user";
-        }
-
-        List<String> sendersList = getInvitation(invitationRequest.receiver);
-        sendersList.add(invitationRequest.sender);
-        String[] sendersArray = sendersList.toArray(new String[0]);
-        invitationRepository.sendInvitation(invitationRequest.receiver, sendersArray);
+        invitationRepository.sendInvitation(invitationRequest.receiver, invitationRequest.sender);
         logger.info("Invitation Sent");
         return "Invitation Sent";
-    }
-
-    private boolean invitationAlreadySent(InvitationRequest invitationRequest){
-        List<String> sendersList = getInvitation(invitationRequest.receiver);
-        for(String sender: sendersList){
-            if(sender.equals(invitationRequest.sender)) return true;
-        }
-        return false;
     }
 
     public String acceptInvitation(InvitationRequest invitationRequest){
@@ -59,14 +44,7 @@ public class InvitationService {
     }
 
     void deleteSenderFromReceiverList(String sender, String receiver){
-        List<String> sendersList = getInvitation(receiver);
-        sendersList.remove(sender);
-        String[] sendersArray = sendersList.toArray(new String[0]);
-
-        if(sendersArray[0].contains(sender + ".")) sendersArray[0] = sendersArray[0].replace(sender + ",", "");
-        else if(sendersArray[0].contains("," + sender)) sendersArray[0] = sendersArray[0].replace("," + sender, "");
-        else sendersArray[0] = sendersArray[0].replace(sender, "");
-
-        invitationRepository.sendInvitation(receiver, sendersArray);
+        invitationRepository.deleteInvitation(receiver, sender);
+        logger.info("Invitation is deleted");
     }
 }

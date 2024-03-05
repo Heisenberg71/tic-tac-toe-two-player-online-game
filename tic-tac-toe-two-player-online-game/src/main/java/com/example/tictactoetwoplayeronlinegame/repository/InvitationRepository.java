@@ -15,16 +15,14 @@ import static org.yaml.snakeyaml.tokens.Token.ID.Value;
 @Transactional
 @Repository
 public interface InvitationRepository extends JpaRepository<Invitation, Long> {
-    @Query(value = "SELECT senders FROM invitation WHERE receiver = (?1)", nativeQuery = true)
-    public List<String> getInvitation(String receiver);
-
-//    @Transactional
-//    @Modifying
-//    @Query(value = "UPDATE invitation SET senders = (?2) WHERE receiver = (?1)", nativeQuery = true)
-//    public void sendInvitation(String receiver, List<String> senders);
+    @Query(value = "SELECT sender FROM invitation WHERE receiver = (:receiver)", nativeQuery = true)
+    public List<String> getInvitation(@Param("receiver") String receiver);
 
     @Modifying
-    @Query(value = "UPDATE invitation SET senders = :senders WHERE receiver = :receiver", nativeQuery = true)
-    void sendInvitation(@Param("receiver") String receiver, @Param("senders") String[] senders);
+    @Query(value = "INSERT INTO invitation (receiver, sender) VALUES (:receiver, :sender)", nativeQuery = true)
+    void sendInvitation(@Param("receiver") String receiver, @Param("sender") String sender);
 
+    @Modifying
+    @Query(value = "DELETE FROM invitation WHERE receiver = (?1) AND sender = (?2)", nativeQuery = true)
+    void deleteInvitation(String receiver, String sender);
 }
