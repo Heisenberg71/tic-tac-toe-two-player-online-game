@@ -10,21 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LoginService {
+public class LoginService{
     final static Logger logger = LoggerFactory.getLogger(InvitationService.class);
-    UnauthorizedException unauthorizedException;
-
     @Autowired
     LoginRepository loginRepository;
 
     public String login(String username, String password){
         String accessToken = username + password;
-
-        Users users = Users.builder()
-                .username(username)
-                .password(password)
-                .accessToken(accessToken)
-                .build();
 
         if(loginRepository.userCredintialCheck(username, password).size() == 0){
             logger.info("Unauthorized Access");

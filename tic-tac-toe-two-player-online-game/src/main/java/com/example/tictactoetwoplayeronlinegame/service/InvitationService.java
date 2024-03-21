@@ -43,7 +43,7 @@ public class InvitationService {
         return "Invitation Rejected";
     }
 
-    void deleteSenderFromReceiverList(String sender, String receiver){
+    private void deleteSenderFromReceiverList(String sender, String receiver){
         invitationRepository.deleteInvitation(receiver, sender);
         logger.info("Invitation is deleted");
     }
